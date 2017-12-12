@@ -602,6 +602,7 @@ class ViewController: UIViewController {
         }
         print(puzzleOutput)
         // Prints "gr"
+        print("You finished!")
     }
     
     /// MARK: viewDidLoad
