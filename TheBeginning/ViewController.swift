@@ -601,7 +601,7 @@ class ViewController: UIViewController {
             }
         }
         print(puzzleOutput)
-        // Prints "gr"
+        // Prints "gr" and break all the flow
     }
     
     /// MARK: viewDidLoad
