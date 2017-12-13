@@ -602,9 +602,124 @@ class ViewController: UIViewController {
         }
         print(puzzleOutput)
         // Prints "gr"
-        print("You finished!")
     }
     
+    func testFunction (name: String) -> String {
+        print("\n- FUNCTIONS")
+        return "Hello \(name)!"
+    }
+    
+    func returnTuple () -> (num1: Int, num2: Int) {
+        let n1 = 10
+        let n2 = 20
+        
+        return (n1, n2)
+    }
+    
+    func returnOptionalTuple () -> (num1: Int, num2: Int)? {
+        let n1 = 10
+        let n2 = 20
+        
+//        return (n1, n2)
+        return nil
+    }
+    
+    func defaultParameters (num1: Int = 10, num2: Int = 20) {
+        print("Numbers in \"defaultParameters\": \(num1), \(num2)")
+    }
+    
+    func variadicParams (_ numbers: Int...) {
+        for number in numbers {
+            print("Number in variadicParams: \(number)")
+        }
+    }
+    
+    func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+        let temporaryA = a
+        a = b
+        b = temporaryA
+    }
+    
+    func enumeration () {
+        print("\n- ENUM")
+        
+        // Planets
+        enum Planet {
+            case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+        }
+        print("Planet: \(Planet.jupiter) - Hash Value: \(Planet.jupiter.hashValue)")
+        
+        // Compass
+        enum CompassPoint {
+            case north
+            case south
+            case east
+            case west
+        }
+        
+        var directionToHead = CompassPoint.north
+        directionToHead = .east // It's of the same type
+        
+        switch directionToHead {
+            case .north:
+                print("North Direction")
+            case .east:
+                print("East, where the sun rises")
+            case .south:
+                print("South, Penguins Dance")
+            case .west:
+                print("West, where the legendary battles happen")
+            default:
+                print("No directions")
+        }
+        
+        // Barcode
+        enum Barcode {
+            case upc(Int, Int, Int, Int)
+            case qrCode(String)
+        }
+        
+        // Showing how the variable can contain both options
+        var productBarCode = Barcode.upc(8, 85909, 51226, 3)
+        productBarCode = .qrCode("ABCDEFGHIJKLMNOP")
+        print("Product Bar Code: \(productBarCode)")
+        
+        // Check data giving names
+        switch productBarCode {
+            case .upc(let numberSystem, let manufacturer, let product, let check):
+                print("UPC: \(numberSystem), \(manufacturer), \(product), \(check).")
+            case .qrCode(let productCode):
+                print("QR code: \(productCode).")
+        }
+        
+        // Or this if all the values for the enum are either all constants or variables, all of the same type
+        switch productBarCode {
+            case let .upc(numberSystem, manufacturer, product, check):
+                print("UPC : \(numberSystem), \(manufacturer), \(product), \(check).")
+            case let .qrCode(productCode):
+                print("QR code: \(productCode).")
+        }
+        
+        // Raw Values
+        enum ASCIIControlCharacter: Character {
+            case tab = "\t"
+            case lineFeed = "\n"
+            case carriageReturn = "\r"
+        }
+        let char = ASCIIControlCharacter.self
+        print("tab\(char.tab.rawValue)- LineFeed: \(char.lineFeed.rawValue) - CarriageReturn: \(char.carriageReturn.rawValue).")
+
+        // Planets with RAW values
+        enum PlanetRaw: Int {
+            case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+        }
+        if let possiblePlanet = PlanetRaw(rawValue: 7) {
+            print("Planet Raw: \(PlanetRaw.venus.rawValue) Planet: \(PlanetRaw.venus) - Possible Planet: \(possiblePlanet)")
+        } else {
+            print("There is no planet with that number value")
+        }
+        
+    }
     /// MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -654,6 +769,34 @@ class ViewController: UIViewController {
         /// - Break
         breakStatement()
         
+        /// FUNCTIONS
+        /// - Return Value
+        print(testFunction(name: "Moisés"))
+        /// - Return Tuple
+        let (numberOne, numberTwo) = returnTuple()
+        print("Values from returning a tuple: (\(numberOne), \(numberTwo))")
+        // - Return Optional Tuple (Using Optional Binding)
+        if let numbers = returnOptionalTuple() {
+            print("Values for returning an optional tuple: \(numbers.num1), \(numbers.num2)")
+        } else {
+            print("The tuple has a nil value")
+        }
+        // - Default param (If a param is not sent, is gonna take the efault value declared in the function)
+        defaultParameters(num1: 30)
+        // - VariadicParams
+        variadicParams(1, 2, 3, 4, 5, 6, 7)
+        // - In-Out Parameters (To affect values outside of the scope)
+        var someInt = 3
+        var anotherInt = 107
+        swapTwoInts(&someInt, &anotherInt)
+        print("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
+        // Prints "someInt is now 107, and anotherInt is now 3"
+        // - Define a variable that contains a function
+//        let constantFunc: (String) -> (String) = testFunction
+//        print("Variable of type function: \(constantFunc("Moy"))")
+        
+        /// ENUMERATIONS
+        enumeration()
     }
 
     override func didReceiveMemoryWarning() {
